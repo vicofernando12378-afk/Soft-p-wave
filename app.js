@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initContactForm();
   initScrollIndicator();
+  initChatSimulator();
+  initFormProgress();
+  initFAQAccordion();
 });
 
 /* ── 1. NAVBAR: Opacidad al hacer scroll ────────────────────────────────── */
@@ -129,13 +132,23 @@ function initContactForm() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    // Validar el formulario activamente al submitir
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
     // Feedback visual en el botón
     submitBtn.disabled       = true;
     submitBtn.style.opacity  = '0.65';
-    submitBtn.textContent    = 'Enviando diagnóstico...';
+    submitBtn.textContent    = 'ACTIVANDO ANÁLISIS DE IA...';
 
     // Simular latencia de red
     setTimeout(() => {
+      // Ocultar wrapper de progreso si existiera
+      const progEl = document.querySelector('.form-progress-wrapper');
+      if (progEl) progEl.style.display = 'none';
+
       form.style.display            = 'none';
       successEl.style.display       = 'flex';
       successEl.style.opacity       = '0';
@@ -167,4 +180,156 @@ function initScrollIndicator() {
 
   indicator.style.transition = 'opacity 400ms ease, transform 400ms ease';
   window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+/* ── 7. CHAT SIMULATOR ──────────────────────────────────────────────────── */
+function initChatSimulator() {
+  const container = document.getElementById('chat-simulator');
+  if (!container) return;
+
+  const msg1 = document.getElementById('chat-msg-1');
+  const msg2 = document.getElementById('chat-msg-2');
+  const msg3 = document.getElementById('chat-msg-3');
+  const typingIndicator = document.getElementById('msg-typing-indicator');
+  const msg3Text = document.getElementById('chat-msg-3-text');
+
+  // Trigger sequence on scroll entry to ensure user sees it
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        startSimulation();
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  observer.observe(container);
+
+  function startSimulation() {
+    // Msg 1 (Hermes) reveals
+    setTimeout(() => {
+      msg1.classList.add('revealed');
+    }, 400);
+
+    // Msg 2 (User) reveals
+    setTimeout(() => {
+      msg2.style.display = 'flex';
+      requestAnimationFrame(() => {
+        msg2.classList.add('revealed');
+      });
+    }, 2600);
+
+    // Msg 3 (Hermes typing) reveals
+    setTimeout(() => {
+      msg3.style.display = 'flex';
+      requestAnimationFrame(() => {
+        msg3.classList.add('revealed');
+      });
+    }, 4800);
+
+    // Msg 3 (Hermes text) replaces typing indicator
+    setTimeout(() => {
+      if (typingIndicator) typingIndicator.style.display = 'none';
+      if (msg3Text) {
+        msg3Text.style.display = 'block';
+        msg3Text.style.opacity = '0';
+        msg3Text.style.transition = 'opacity 400ms ease';
+        requestAnimationFrame(() => {
+          msg3Text.style.opacity = '1';
+        });
+      }
+    }, 7000);
+  }
+}
+
+/* ── 8. FORM PROGRESS TRACKING ──────────────────────────────────────────── */
+function initFormProgress() {
+  const form = document.getElementById('contact-form');
+  const progressBar = document.getElementById('form-progress-bar');
+  const progressText = document.getElementById('form-progress-text');
+
+  if (!form || !progressBar || !progressText) return;
+
+  // Lista de campos requeridos
+  const fields = [
+    document.getElementById('cf-name'),
+    document.getElementById('cf-email'),
+    document.getElementById('cf-url'),
+    document.getElementById('cf-service'),
+    document.getElementById('cf-message'),
+    document.getElementById('cf-cro-compliance')
+  ];
+
+  function updateProgress() {
+    let completedCount = 0;
+
+    fields.forEach(field => {
+      if (!field) return;
+
+      if (field.type === 'checkbox') {
+        if (field.checked) completedCount++;
+      } else {
+        if (field.value.trim() !== '') completedCount++;
+      }
+    });
+
+    const percentage = Math.round((completedCount / fields.length) * 100);
+    progressBar.style.width = `${percentage}%`;
+
+    if (percentage === 0) {
+      progressText.textContent = '0% completado — Completa los campos para activar el diagnóstico';
+    } else if (percentage < 100) {
+      progressText.textContent = `${percentage}% completado — Estás a un paso de la optimización`;
+    } else {
+      progressText.textContent = '100% completado — Listo para activar tu análisis de IA';
+    }
+  }
+
+  // Escuchar eventos en los campos
+  fields.forEach(field => {
+    if (!field) return;
+
+    if (field.type === 'select-one' || field.type === 'checkbox') {
+      field.addEventListener('change', updateProgress);
+    } else {
+      field.addEventListener('input', updateProgress);
+    }
+  });
+
+  updateProgress(); // inicializar
+}
+
+/* ── 9. FAQ ACCORDION ───────────────────────────────────────────────────── */
+function initFAQAccordion() {
+  const faqItems = document.querySelectorAll('.faq-item');
+  if (!faqItems.length) return;
+
+  faqItems.forEach(item => {
+    const btn = item.querySelector('.faq-question-btn');
+    const answerWrap = item.querySelector('.faq-answer-wrap');
+
+    if (!btn || !answerWrap) return;
+
+    btn.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+
+      // Cerrar otros acordeones abiertos
+      faqItems.forEach(otherItem => {
+        if (otherItem !== item && otherItem.classList.contains('active')) {
+          otherItem.classList.remove('active');
+          const otherWrap = otherItem.querySelector('.faq-answer-wrap');
+          if (otherWrap) otherWrap.style.maxHeight = '0';
+        }
+      });
+
+      // Alternar estado actual
+      if (isActive) {
+        item.classList.remove('active');
+        answerWrap.style.maxHeight = '0';
+      } else {
+        item.classList.add('active');
+        answerWrap.style.maxHeight = `${answerWrap.scrollHeight}px`;
+      }
+    });
+  });
 }
