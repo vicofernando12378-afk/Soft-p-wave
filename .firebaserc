@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "missypoweb"
+  },
+  "targets": {
+    "missypoweb": {
+      "hosting": {
+        "softpwave": [
+          "soft-p-wave"
+        ]
+      }
+    }
+  }
+}
