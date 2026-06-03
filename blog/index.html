@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Corporativo | SofT(P)Wave — Autoridad en Tecnología e IA</title>
+  <meta name="description" content="Artículos de autoridad de SofT(P)Wave. Caso de estudio de ROI, The Wave Stack, GEO, importación desde China con IA y desarrollo de ERPs a medida.">
+
+  <!-- SEO & Open Graph -->
+  <meta property="og:title" content="Blog Corporativo | SofT(P)Wave — Autoridad en Tecnología e IA">
+  <meta property="og:description" content="Artículos de autoridad de SofT(P)Wave. Caso de estudio de ROI, The Wave Stack, GEO, importación desde China con IA y desarrollo de ERPs a medida.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://soft-p-wave.web.app/assets/logo-card.jpg">
+
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons -->
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/style.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="/styles.css">
+  
+  <style>
+    /* Estilos personalizados para el Blog Index */
+    .blog-hero {
+      padding: 160px 0 80px 0;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    
+    .blog-hero-sweep {
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.7;
+    }
+    
+    .blog-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .blog-hero-title {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      margin-bottom: 24px;
+    }
+    
+    .blog-hero-description {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    
+    .blog-grid {
+      padding: 80px 0 120px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 32px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      transition: border-color 0.4s var(--ease), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .blog-card:hover {
+      border-color: var(--border-cian);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px var(--accent-dim);
+    }
+    
+    .blog-card-img-wrap {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+    }
+    
+    .blog-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.75;
+      transition: transform 0.6s var(--ease), opacity 0.6s var(--ease);
+    }
+    
+    .blog-card:hover .blog-card-img {
+      transform: scale(1.05);
+      opacity: 0.95;
+    }
+    
+    .blog-card-content {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    
+    .blog-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .blog-card-category {
+      color: var(--accent-cian);
+      background: var(--accent-dim);
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border-cian);
+    }
+    
+    .blog-card-date {
+      color: var(--text-muted);
+    }
+    
+    .blog-card-title {
+      font-size: 1.35rem;
+      margin-bottom: 14px;
+      line-height: 1.25;
+      color: var(--text-main);
+      transition: color 0.3s ease;
+    }
+    
+    .blog-card:hover .blog-card-title {
+      color: var(--accent-cian);
+    }
+    
+    .blog-card-excerpt {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+    
+    .blog-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 20px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    
+    .blog-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-cian);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .blog-card-link i {
+      transition: transform 0.3s var(--ease);
+    }
+    
+    .blog-card:hover .blog-card-link i {
+      transform: translateX(4px);
+    }
+    
+    @media (max-width: 768px) {
+      .blog-hero {
+        padding: 120px 0 60px 0;
+      }
+      .blog-grid {
+        grid-template-columns: 1fr;
+        padding: 40px 0 80px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Noise Background -->
+  <div class="bg-noise" aria-hidden="true"></div>
+
+  <!-- ═══ NAVBAR (Floating Island) ═══ -->
+  <header class="navbar-wrapper" id="main-header">
+    <nav class="navbar" id="main-nav">
+      <a href="/" class="brand-logo" id="logo" aria-label="SofT(P)Wave Home">
+        <img src="/assets/logo-banner.jpg" alt="SofT(P)Wave" class="nav-logo-img">
+      </a>
+      <div class="nav-links-container">
+        <a href="/#pilares" class="nav-link">Soluciones de Negocio</a>
+        <a href="/#manifesto" class="nav-link">El Manifiesto</a>
+        <a href="/#ai-labs" class="nav-link">AI Labs</a>
+        <a href="/#casos" class="nav-link">Casos de Éxito</a>
+        <a href="/blog/index.html" class="nav-link active">Blog</a>
+        <a href="/#contact" class="nav-cta" id="nav-cta-btn">
+          SOLICITAR AUDITORÍA CON IA
+          <span class="nav-cta-icon" aria-hidden="true">
+            <i class="ph-light ph-arrow-up-right"></i>
+          </span>
+        </a>
+      </div>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-links">
+      <a href="/#pilares" class="mobile-link">Soluciones de Negocio</a>
+      <a href="/#manifesto" class="mobile-link">El Manifiesto</a>
+      <a href="/#ai-labs" class="mobile-link">AI Labs</a>
+      <a href="/#casos" class="mobile-link">Casos de Éxito</a>
+      <a href="/blog/index.html" class="mobile-link">Blog</a>
+      <a href="/#contact" class="mobile-link mobile-cta">SOLICITAR AUDITORÍA CON IA</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="blog-hero">
+      <div class="blog-hero-sweep"></div>
+      <div class="container">
+        <div class="blog-hero-content">
+          <span class="section-eyebrow">Pensamiento de Autoridad y GEO</span>
+          <h1 class="blog-hero-title">Ola de Conocimiento</h1>
+          <p class="blog-hero-description">
+            Perspectivas originales, marcos metodológicos de ingeniería y análisis financieros de proyectos de IA y Growth aplicados a la realidad empresarial de Latinoamérica.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID OF POSTS -->
+    <section class="container">
+      <div class="blog-grid">
+        <!-- Post 1 -->
+        <article class="blog-card">
+          <div class="blog-card-img-wrap">
+            <img src="/assets/logo-card.jpg" alt="Grafismo Wave Stack" class="blog-card-img">
+          </div>
+          <div class="blog-card-content">
+            <div class="blog-card-meta">
+              <span class="blog-card-category">Metodología</span>
+              <span class="blog-card-date">15 Mayo 2026</span>
+            </div>
+            <h2 class="blog-card-title">
+              <a href="/blog/posts/wave-stack-geo-latam-2026.html">The Wave Stack: El Marco Metodológico de 4 Capas que Dicta la Conversión Digital en Latinoamérica (Edición 2026)</a>
+            </h2>
+            <p class="blog-card-excerpt">
+              Descubre el Wave Stack, nuestro marco conceptual de cuatro capas interdependientes (Visibilidad GEO, Conversión CRO, Operación ERP e Inteligencia Labs) diseñado para que las empresas dominen sus mercados en la era de la inteligencia artificial.
+            </p>
+            <div class="blog-card-footer">
+              <span>Por Ing. Victor Fernando</span>
+              <a href="/blog/posts/wave-stack-geo-latam-2026.html" class="blog-card-link">
+                Leer más <i class="ph-light ph-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 2 -->
+        <article class="blog-card">
+          <div class="blog-card-img-wrap">
+            <img src="/assets/logo-badge.jpg" alt="Sello de Certificación de ROI" class="blog-card-img">
+          </div>
+          <div class="blog-card-content">
+            <div class="blog-card-meta">
+              <span class="blog-card-category">AI Labs</span>
+              <span class="blog-card-date">20 Mayo 2026</span>
+            </div>
+            <h2 class="blog-card-title">
+              <a href="/blog/posts/retorno-inversion-ia-medible.html">Cómo Calcular el ROI de 3.2x en Proyectos de Inteligencia Artificial: Caso de Estudio de Hermes y OpenClaw en Retail B2B</a>
+            </h2>
+            <p class="blog-card-excerpt">
+              Analizamos financieramente la implementación de nuestros agentes autónomos Hermes y OpenClaw. Una guía paso a paso sobre cómo medir el ahorro operativo, el incremento de ventas y el retorno de inversión real en menos de 90 días.
+            </p>
+            <div class="blog-card-footer">
+              <span>Por Ing. Victor Fernando</span>
+              <a href="/blog/posts/retorno-inversion-ia-medible.html" class="blog-card-link">
+                Leer más <i class="ph-light ph-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 3 -->
+        <article class="blog-card">
+          <div class="blog-card-img-wrap">
+            <img src="/assets/logo-card.jpg" alt="Estructura de base de datos de ERP" class="blog-card-img">
+          </div>
+          <div class="blog-card-content">
+            <div class="blog-card-meta">
+              <span class="blog-card-category">WebApps</span>
+              <span class="blog-card-date">25 Mayo 2026</span>
+            </div>
+            <h2 class="blog-card-title">
+              <a href="/blog/posts/por-que-fallan-erps-genericos.html">Por qué Fallan los ERPs Genéricos en Minimarkets y Farmacias: KPIs Críticos vs. Software de Caja Tradicional</a>
+            </h2>
+            <p class="blog-card-excerpt">
+              El software de caja genérico ignora los KPIs reales de tu industria. Analizamos por qué el ticket promedio, rotación de inventarios y alertas de vencimiento farmacéuticas salvan márgenes comerciales en comparación con sistemas heredados.
+            </p>
+            <div class="blog-card-footer">
+              <span>Por Ing. Victor Fernando</span>
+              <a href="/blog/posts/por-que-fallan-erps-genericos.html" class="blog-card-link">
+                Leer más <i class="ph-light ph-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 4 -->
+        <article class="blog-card">
+          <div class="blog-card-img-wrap">
+            <img src="/assets/logo-banner.jpg" alt="Boceto de campaña de Growth Marketing" class="blog-card-img">
+          </div>
+          <div class="blog-card-content">
+            <div class="blog-card-meta">
+              <span class="blog-card-category">Marketing Digital</span>
+              <span class="blog-card-date">28 Mayo 2026</span>
+            </div>
+            <h2 class="blog-card-title">
+              <a href="/blog/posts/growth-marketing-geo-sintonia-peru.html">Growth Marketing Integrado con GEO: La Nueva Era de la Adquisición Digital en Lima y Mercados Competitivos de Perú</a>
+            </h2>
+            <p class="blog-card-excerpt">
+              La optimización SEO clásica ya no es suficiente. Te explicamos cómo fusionamos estrategias de Paid Media multicanal (Meta/TikTok/Google) con GEO (Generative Engine Optimization) para aparecer en las respuestas de Gemini, ChatGPT y AI Overviews.
+            </p>
+            <div class="blog-card-footer">
+              <span>Por Ing. Victor Fernando</span>
+              <a href="/blog/posts/growth-marketing-geo-sintonia-peru.html" class="blog-card-link">
+                Leer más <i class="ph-light ph-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 5 -->
+        <article class="blog-card">
+          <div class="blog-card-img-wrap">
+            <img src="/assets/logo-card.jpg" alt="Sourcing internacional con IA" class="blog-card-img">
+          </div>
+          <div class="blog-card-content">
+            <div class="blog-card-meta">
+              <span class="blog-card-category">E-commerce</span>
+              <span class="blog-card-date">2 Junio 2026</span>
+            </div>
+            <h2 class="blog-card-title">
+              <a href="/blog/posts/china-sourcing-dropshipping-ia-2026.html">Importación de China con Inteligencia Artificial: Del Sourcing en 1688 al Dropshipping Automatizado con $2,000 USD de Capital</a>
+            </h2>
+            <p class="blog-card-excerpt">
+              Guía práctica de importación internacional y automatización logística. Aprende cómo utilizar herramientas de IA para auditar proveedores en China, negociar a través de 1688 y automatizar tus ventas minoristas con un capital de entrada optimizado.
+            </p>
+            <div class="blog-card-footer">
+              <span>Por Ing. Victor Fernando</span>
+              <a href="/blog/posts/china-sourcing-dropshipping-ia-2026.html" class="blog-card-link">
+                Leer más <i class="ph-light ph-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="main-footer" id="footer" aria-label="Footer corporativo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <p class="footer-tagline">Tecnología de punta.<br>Resultados en la cresta.</p>
+        </div>
+        <div class="footer-links-col">
+          <span class="footer-col-title">Servicios</span>
+          <a href="/#pilares" class="footer-link">Growth Marketing &amp; GEO</a>
+          <a href="/#pilares" class="footer-link">E-commerce Global</a>
+          <a href="/#pilares" class="footer-link">ERPs de Nicho</a>
+          <a href="/#ai-labs" class="footer-link">AI Labs</a>
+        </div>
+        <div class="footer-links-col">
+          <span class="footer-col-title">Agencia</span>
+          <a href="/#manifesto" class="footer-link">Manifiesto</a>
+          <a href="/#contact" class="footer-link">CONTÁCTANOS</a>
+        </div>
+      </div>
+
+      <!-- Sello de Certificación Premium centrado en el footer -->
+      <div class="footer-badge-wrap">
+        <div class="footer-badge-glow" aria-hidden="true"></div>
+        <div class="footer-badge-outer">
+          <div class="footer-badge-inner">
+            <img src="/assets/logo-badge.jpg" alt="Sello de Certificación Premium SofT(P)Wave" class="footer-badge-img" id="footer-badge">
+          </div>
+        </div>
+        <div class="footer-badge-shimmer" aria-hidden="true"></div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 SofT(P)Wave. Todos los derechos reservados.</span>
+        <div class="footer-legal">
+          <a href="#" class="footer-legal-link">Política de Privacidad (Ley N° 29733 · ANPD)</a>
+          <a href="#" class="footer-legal-link">Términos &amp; Condiciones</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botón flotante de WhatsApp -->
+  <a href="https://wa.me/51913249330" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp B2B">
+    <i class="ph-light ph-whatsapp-logo whatsapp-icon"></i>
+    <span class="whatsapp-text">B2B WhatsApp</span>
+  </a>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
